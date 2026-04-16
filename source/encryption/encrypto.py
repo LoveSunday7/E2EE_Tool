@@ -2,7 +2,7 @@ from Crypto.Cipher import AES
 from Crypto.Hash import SHA256
 from Crypto.Util.Padding import pad, unpad
 from os import urandom
-from encoding import *
+from .encoding import *
 
 def aes_encrypt_bytes(plaintext: bytes, key: bytes) -> bytes:
     """

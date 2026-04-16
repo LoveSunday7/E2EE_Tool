@@ -43,10 +43,6 @@ def key_pad(key: bytes) -> bytes:
         return key + b'\x00' * (32 - len(key))
     else:
         return key[:32]
-    
-
-
-    
 
 if __name__ == "__main__":
     text = "asdiaosfjsa"

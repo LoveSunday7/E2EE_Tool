@@ -1,1 +1,1 @@
-#
+print(len("4f2d88834042208cbe982dee87bc9a25fe68a1a6e709a856f4f8d8fb154aa057"))

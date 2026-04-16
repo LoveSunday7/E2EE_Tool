@@ -16,7 +16,7 @@ def init_server_database():
         cursor.execute(
                 'CREATE TABLE users (               ' \
                 '   id INTEGER PRIMARY KEY,         ' \
-                '   username CHAR(20) UNIQUE,       ' \
+                '   username CHAR(64) UNIQUE,       ' \
                 '   ip CHAR(15),                    ' \
                 '   port CHAR(5),                   ' \
                 '   is_active BOOL DEFAULT false    ' \
