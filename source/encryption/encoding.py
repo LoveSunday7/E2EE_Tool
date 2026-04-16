@@ -1,30 +1,25 @@
 import base64
 
 def base64_encode(text: str) -> bytes:
-    '''
-    base64编码
+    """
+    Base64 编码
 
-    returns:
-        decoded_text: 二进制字符串
-    '''
-
+    :param text: 原始字符串（UTF-8）
+    :return: Base64 编码后的字节串（bytes 类型）
+    """
     bytes_data = text.encode('utf-8')
     base64_bytes = base64.b64encode(bytes_data)
-
     return base64_bytes
 
 def base64_decode(base64_bytes: bytes) -> str:
+    """
+    Base64 解码
 
-    '''
-    base64解码
-
-    returns:
-        decoded_text: 二进制字符串
-    '''
-
+    :param base64_bytes: Base64 编码的字节串
+    :return: 解码后的原始字符串（UTF-8）
+    """
     decoded_bytes = base64.b64decode(base64_bytes)
     decoded_text = decoded_bytes.decode('utf-8')
-
     return decoded_text
 
 def key_pad(key: bytes) -> bytes:
