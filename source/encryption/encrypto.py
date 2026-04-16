@@ -1,15 +1,17 @@
 import os
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from cryptography.hazmat.primitives import padding, hashes
-from cryptography.hazmat.primitives.asymmetric import rsa, padding
-from cryptography.hazmat.primitives import serialization, hashes
 from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import hashes, padding, serialization
+from cryptography.hazmat.primitives.asymmetric import dh, rsa
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.primitives.kdf.hkdf import HKDF
+
 
 from .encoding import * 
 
 def aes_encrypt_bytes(plaintext: bytes, key: bytes) -> bytes:
     """
     AES 加密，直接返回二进制密文（IV + 密文）
+
     :param plaintext: 明文字节串
     :param key: 密钥（16/24/32 字节，若长度不符需自行填充）
     :return: 加密结果（IV(16字节) + 密文），bytes 类型
@@ -28,6 +30,7 @@ def aes_encrypt_bytes(plaintext: bytes, key: bytes) -> bytes:
 def aes_decrypt_bytes(encrypted_data: bytes, key: bytes) -> bytes:
     """
     AES 解密，直接处理二进制密文（IV + 密文）
+
     :param encrypted_data: 加密结果（IV(16字节) + 密文）
     :param key: 密钥（必须与加密时相同）
     :return: 明文字节串
@@ -44,6 +47,7 @@ def aes_decrypt_bytes(encrypted_data: bytes, key: bytes) -> bytes:
 def string_to_sha256(text: str) -> str:
     """
     对字符串先进行 base64 编码，再计算 SHA-256 哈希
+
     :param text: 原字符串
     :return: 加密后的十六进制字符串
     """
@@ -54,9 +58,10 @@ def string_to_sha256(text: str) -> str:
     hash_hex = digest.finalize().hex()
     return hash_hex
 
-def generate_rsa_key_pair(key_size: int = 2048):
+def generate_rsa_key_pair(key_size: int = 2048) -> bytes:
     """
     生成 RSA 密钥对，返回 (私钥PEM字节串, 公钥PEM字节串)
+
     :param key_size: 密钥长度，推荐 2048 或 3072
     """
     private_key = rsa.generate_private_key(
@@ -80,6 +85,7 @@ def generate_rsa_key_pair(key_size: int = 2048):
 def rsa_encrypt_bytes(plaintext: bytes, public_key_pem: bytes) -> bytes:
     """
     使用 RSA 公钥加密短数据（OAEP 填充，SHA-256）
+
     :param plaintext: 明文字节串（长度受密钥限制，例如 2048 位密钥最多加密 190 字节）
     :param public_key_pem: 公钥 PEM 格式字节串
     :return: 密文字节串
@@ -98,6 +104,7 @@ def rsa_encrypt_bytes(plaintext: bytes, public_key_pem: bytes) -> bytes:
 def rsa_decrypt_bytes(ciphertext: bytes, private_key_pem: bytes) -> bytes:
     """
     使用 RSA 私钥解密数据
+
     :param ciphertext: 密文字节串
     :param private_key_pem: 私钥 PEM 格式字节串
     :return: 明文字节串
@@ -118,24 +125,4 @@ def rsa_decrypt_bytes(ciphertext: bytes, private_key_pem: bytes) -> bytes:
     return plaintext
 
 if __name__ == "__main__":
-    # 测试：使用一个正确的密钥（16字节）
-    # key = b'1234567890123456'   # 16字节 AES-128
-    # plain = b"deaedcaeda"
-    # encrypted = aes_encrypt_bytes(plain, key)
-    # print("密文:", encrypted.hex())
-    # decrypted = aes_decrypt_bytes(encrypted, key)
-    # print("解密:", decrypted)
-
-    # print(string_to_sha256("你好"))
-
-    priv_pem, pub_pem = generate_rsa_key_pair(2048)
-    print(priv_pem)
-    print("------")
-    print(pub_pem)
-    print("------")
-    message = b"RSA secret message"
-    encrypted = rsa_encrypt_bytes(message, pub_pem)
-    print("加密结果：",  encrypted)
-    decrypted = rsa_decrypt_bytes(encrypted, priv_pem)
-    print("RSA 解密结果:", decrypted)
-    assert message == decrypted
+    pass

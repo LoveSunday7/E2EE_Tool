@@ -6,3 +6,9 @@ SERVER_IP = ""
 
 # 公网服务器端口
 SERVER_PORT = ""
+
+# 本地IP
+CLEINT_IP = ""
+
+# 本地端口
+CLEINT_PORT = ""

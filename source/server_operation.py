@@ -28,4 +28,4 @@ def add_user(username):
 
 
 if __name__ == "__main__":
-    print(add_user("LoveSuday5h4"))
+    print(add_user("LoveSuday"))
