@@ -1,3 +1,9 @@
 ./.venv
 
+./source/database/server_database/E2EE_server.db
+
+./source/database/client_database/E2EE_client.db
+
+./source/database/client_database/files/*
+
 ./test.py
